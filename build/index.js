@@ -90,24 +90,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
+//JS FAJL U KOME KREIRAMO FRONTEND NASEG BLOKA
+
 wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   // koristimo metodu biblioteke za kreiranje widgeta za gutenberg
   title: "Are you Paying Attention",
   //naziv i ikonica ce se naci u delu gde biramo koji widget zelimo da iskoristimo isto kao u elementoru npt ako hocemo da izaberemo heading widget
   icon: "smiley",
-  edit: function () {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, "This is from JSX index JS"))
-    //koristimo JSX kako bi widget mogli da pravimo obicnim html kodom
-    ;
+  category: "common",
+  attributes: {
+    skyColor: {
+      type: "string"
+    },
+    //atributi u kojima se postavlja vrednost iz inputa i kasnije ispisuju na frontu
+    grassColor: {
+      type: "string"
+    }
+  },
+  edit: function (props) {
+    function updateSkyColor(event) {
+      props.setAttributes({
+        skyColor: event.target.value
+      });
+    }
+    function updateGrassColor(event) {
+      props.setAttributes({
+        grassColor: event.target.value
+      });
+    }
+    return (
+      // kreirali smo JSX i napravili widget gde smo postavili dva inputa 
+      // sta god napisemo u imputima vrednost inputa se postavlja u atribute skyColor i grassColor. 
+      (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+        type: "text",
+        placeholder: "sky color",
+        value: props.attributes.skyColor,
+        onChange: updateSkyColor
+      }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+        type: "text",
+        placeholder: "grass color",
+        value: props.attributes.grassColor,
+        onChange: updateGrassColor
+      }))
+      //koristimo JSX kako bi widget mogli da pravimo obicnim html kodom
+    );
   },
 
   save: function () {
-    return wp.element.createElement("h3", null, "Hello, this is from js save!"); //ono sto se ispisuje na frontendu na samoj stranici na sajtu (nije isto kao  u edit bloku).
-    // argumenti su isti
-    //PRIMER: unutar edita kreiramo widget kao sto je u elementoru npr heading widget kako
-    //ce on da izgleda i to ,a u save jeste  podatak koji smo uneli u heading tag a to je test naseg naslova
-    // i na samoj stranici ce se ispisati samo text naslova nece se videti ceo widget ili kreiramo isti widget kao u edit funkciji kako bi se ceo widget video
-    //na stranici i sanjim mogli nesto da radimo .
+    // funkcija vraca null ali smo napravili callback u php fajlu i funkciju koja kreira sta ce se ispisati na frontu
+    return null;
   }
 });
 }();
