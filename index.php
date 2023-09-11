@@ -16,7 +16,8 @@ class myJsPlugin
 
     function importJS()
     {
-        wp_register_script('myJsScript', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element'));
+        wp_register_style('myCss', plugin_dir_url(__FILE__) . 'build/index.css');
+        wp_register_script('myJsScript', plugin_dir_url(__FILE__) . 'build/index.js', array('wp-blocks', 'wp-element', 'wp-editor'));
         //imorpotujemo JS u php fajl kako bi ih povezali 
         //1.argument proizvoljni naziv nase skirpte
         //2.argument jeste putanja do naseg js fajla
@@ -24,10 +25,12 @@ class myJsPlugin
 
 
         register_block_type(
-            "ourplugin/are-you-paying-attention", //naziv bloka koji koristimo i u js fajlu
+            "ourplugin/are-you-paying-attention",
+            //naziv bloka koji koristimo i u js fajlu
             array(
                 "editor_script" => "myJsScript",
                 // skripta koja se koristi za kreiranje bloka
+                "editor_style" => "myCss",
                 "render_callback" => array($this, "saveHTML") //html koji je zapravo SAVE tj ono sto ispisujemo u frontu
             )
         ); // funckija za registraciju bloka ili widgeta za gutenberg

@@ -1,5 +1,8 @@
 //JS FAJL U KOME KREIRAMO FRONTEND NASEG BLOKA
 
+import {TextControl, Flex, FlexBlock,FlexItem,Button,Icon} from "@wordpress/components"// dependency koji nam sluze da koristimo react i umesto da pisemo dug html mi koristimo react-ove elemente
+import "./index.scss"
+
 wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   // koristimo metodu biblioteke za kreiranje widgeta za gutenberg
   title: "Are you Paying Attention", //naziv i ikonica ce se naci u delu gde biramo koji widget zelimo da iskoristimo isto kao u elementoru npt ako hocemo da izaberemo heading widget
@@ -7,23 +10,43 @@ wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   category:"common",
   attributes:{
 
-    skyColor:{type: "string"}, //atributi u kojima se postavlja vrednost iz inputa i kasnije ispisuju na frontu
-    grassColor:{type: "string"},
+    question:{type: "string"}, //atributi u kojima se postavlja vrednost iz inputa i kasnije ispisuju na frontu
+    answer:{type: "string"},
   },
   edit: function (props) {
-    function updateSkyColor(event){
-      props.setAttributes({skyColor:event.target.value})
+
+
+    function updateQuestion(value){
+      props.setAttributes({question: value})
     }
 
-    function updateGrassColor(event){
-      props.setAttributes({grassColor:event.target.value})
+    function updateAnswer(value){
+      props.setAttributes({answer: value})
     }
+
+   
 
     return (// kreirali smo JSX i napravili widget gde smo postavili dva inputa 
     // sta god napisemo u imputima vrednost inputa se postavlja u atribute skyColor i grassColor. 
-        <div>
-            <input type="text" placeholder="sky color" value={props.attributes.skyColor} onChange={updateSkyColor}/> 
-            <input type="text" placeholder="grass color" value={props.attributes.grassColor} onChange={updateGrassColor} />
+        <div className="paying-attention-edit-block">
+            <TextControl value={props.attributes.question} label="Question:" onChange={updateQuestion} style={{fontSize: "20px"}}/>
+            <p style={{fontSize:"13px", margin:"20px 0px 8px 0px"}}>Answers:</p>
+            <Flex>
+              <FlexBlock>
+              <TextControl value={props.attributes.answer} onChange={updateAnswer}/>
+              </FlexBlock>
+                <FlexItem>
+                  <Button>
+                    <Icon className="mark-as-correct" icon="star-empty"></Icon>
+                  </Button>
+                </FlexItem>
+                <FlexItem>
+                  <Button isLink className="attention-delete">Delete</Button>
+                </FlexItem>
+              
+            </Flex>
+            <Button isPrimary> Add another answer</Button>
+            
         </div>
       //koristimo JSX kako bi widget mogli da pravimo obicnim html kodom
     );
